@@ -1,0 +1,25 @@
+{
+  "name": "webfiles",
+  "description": "Vue.JS file management interface",
+  "main": "src/main.js",
+  "authors": [
+    "Chidiebere Nnadi <chidiebere.nnadi@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "VueJS",
+    "File",
+    "Management",
+    "User",
+    "Interface"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/lib",
+    "test",
+    "tests"
+  ]
+}
