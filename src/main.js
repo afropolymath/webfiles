@@ -5,8 +5,6 @@ import VueResource from 'vue-resource';
 import store from './store';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import ActivityIndicator from './components/ActivityIndicator';
-import GenericModal from './components/GenericModal';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -31,8 +29,4 @@ const router = new VueRouter({
 (new Vue({
   router,
   store,
-  components: {
-    ActivityIndicator,
-    GenericModal,
-  },
 })).$mount('#app');

@@ -1,5 +1,5 @@
 <template>
-  <div class="base-component file-manager">
+  <div class="base-component c-file-manager">
     <slot></slot>
   </div>
 </template>
@@ -11,8 +11,10 @@ export default {
 </script>
 
 <style lang="sass?outputStyle=expanded">
-.file-manager {
+.c-file-manager {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 40px;
   bottom: 40px;
   left: 40px;

@@ -5,7 +5,7 @@ import Auth from '../../services/auth';
 export default {
   namespaced: true,
   state: {
-    currentUser: {},
+    currentUser: { id: '', token: '' },
   },
   actions: {
     loginUser({ commit }, user) {
@@ -23,14 +23,14 @@ export default {
       }
       return localForage.getItem('wf_user')
       .then((user) => {
-        if (user) {
-          return Auth.testToken(user)
-          .then(() => {
-            commit('SET_CURRENT_USER', user);
-            return user;
-          });
+        if (!user) {
+          return Promise.resolve({});
         }
-        return Promise.resolve({});
+        return Auth.testToken(user)
+        .then(() => {
+          commit('SET_CURRENT_USER', user);
+          return user;
+        });
       });
     },
   },

@@ -75,7 +75,7 @@ export default {
 $default-text-size: 15px;
 $small-text-size: 13px;
 $default-text-color: #595959;
-$default-font: "Din Pro";
+$default-font: "Open Sans";
 $inverted-text-color: #FFFFFF;
 $default-site-roundness: 2px;
 $error-color: #FF6F59;

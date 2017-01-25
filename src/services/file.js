@@ -19,7 +19,7 @@ export default {
     return Vue.http.delete(baseURI);
   },
   create(user, form) {
-    return Vue.http.post(url(`users/${user.id}/files/`), form, { headers: { Authorization: user.token } });
+    return Vue.http.post(url(`users/${user.id}/files`), form, { headers: { Authorization: user.token } });
   },
   edit(user, file, form) {
     return Vue.http.put(url(`users/${user.id}/files/${file.id}`), form, { headers: { Authorization: user.token } });

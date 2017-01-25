@@ -5,27 +5,35 @@ import File from '../../services/file';
 export default {
   namespaced: true,
   state: {
-    currentFolder: {},
+    currentFolder: { name: '', path: '', objects: '' },
   },
   actions: {
-    loadFiles({ commit }, user) {
+    loadFiles({ commit }, { user }) {
       return File.list(user)
       .then((response) => {
         commit('SET_CURRENT_FOLDER', response.body);
       });
     },
-    uploadFile({ commit }, user, file, directory) {
+    navigateToDirectory({ commit }, { user, directory }) {
+      console.log(user, directory);
+      return File.view(user, directory)
+      .then((response) => {
+        commit('SET_CURRENT_FOLDER', response.body);
+      });
+    },
+    uploadFile({ commit }, { user, file, directory }) {
       const form = new FormData();
       form.append('file', file);
-      if (directory) {
+      if (directory && directory.id) {
         form.append('parent_id', directory.id);
       }
       return File.create(user, form)
       .then((response) => {
-        commit('ADD_FILE', response);
+        console.log(response);
+        commit('ADD_FILE', response.body);
       });
     },
-    createFolder({ commit }, user, name, directory) {
+    createFolder({ commit }, { user, name, directory }) {
       const request = {
         name,
       };
@@ -37,19 +45,19 @@ export default {
         commit('ADD_FILE', response);
       });
     },
-    editObject({ commit }, user, file) {
+    editObject({ commit }, { user, file }) {
       return File.edit(user, file, { name: file.name })
       .then((response) => {
         commit('EDIT_FILE', response);
       });
     },
-    moveObject({ commit }, user, file, directory) {
+    moveObject({ commit }, { user, file, directory }) {
       return File.edit(user, file, { parent_id: directory.id })
       .then(() => {
         commit('DELETE_FILE', file);
       });
     },
-    deleteObject({ commit }, user, file, hardDelete) {
+    deleteObject({ commit }, { user, file, hardDelete }) {
       return File.delete(user, file, hardDelete)
       .then(() => {
         commit('DELETE_FILE', file);
@@ -64,7 +72,7 @@ export default {
   mutations: {
     /* eslint no-param-reassign: ["error", { "props": false }] */
     ADD_FILE(state, file) {
-      state.currentFolder.files.append(file);
+      state.currentFolder.objects.push(file);
     },
     SET_CURRENT_FOLDER(state, folder) {
       if (folder instanceof Array) {
