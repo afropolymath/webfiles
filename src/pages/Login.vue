@@ -49,7 +49,7 @@ export default {
       vm.$store.dispatch('users/loginUser', this.user)
       .then(() => {
         vm.isLoading = false;
-        vm.$router.push({ name: 'dashboard' });
+        vm.$router.push({ name: 'folder', params: { folderId: '~' } });
       })
       .catch((response) => {
         vm.isLoading = false;

@@ -1,5 +1,6 @@
 <template>
-  <div class="base-component c-file" @dblclick="triggerFile">
+  <div class="base-component c-file" @click="selectFile" @dblclick="triggerFile"
+    :class="{ 'active': selectedFile && selectedFile.id == wfFileObject.id }">
     <div class="file-icon">
       <span class="file-icon material-icons">{{ fileIcon }}</span>
     </div>
@@ -17,12 +18,12 @@ export default {
     wfFileObject: Object,
   },
   methods: {
+    selectFile() {
+      this.$store.dispatch('files/selectObject', { file: this.wfFileObject });
+    },
     triggerFile() {
       if (this.wfFileObject.is_folder) {
-        this.$store.dispatch('files/navigateToDirectory', {
-          user: this.currentUser,
-          directory: this.wfFileObject,
-        });
+        this.$router.push({ name: 'folder', params: { folderId: this.wfFileObject.id } });
       }
     },
   },
@@ -35,12 +36,22 @@ export default {
     },
     ...mapGetters({
       currentUser: 'users/getCurrentUser',
+      selectedFile: 'files/getSelectedFile',
     }),
   },
 };
 </script>
 
 <style lang="sass?outputStyle=expanded">
+.no-select {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
 .c-file {
   display: flex;
   flex-direction: column;
@@ -52,12 +63,13 @@ export default {
   border: solid 1px transparent;
   border-radius: 2px;
   transition: border .3s;
-  margin-right: 25px;
   margin-bottom: 25px;
   .file-icon {
+    @extend .no-select;
     font-size: 48px;
   }
   .file-name {
+    @extend .no-select;
     font-size: 0.85em;
     font-weight: 100;
     text-align: center;
@@ -67,9 +79,12 @@ export default {
     text-overflow: ellipsis;
   }
   &:hover {
-    border: solid 1px #ccc;
+    border-color: #ccc;
     cursor: pointer;
     box-shadow: 1px 1px 6 px 0 rgba(0,0,0,0.08);
+  }
+  &.active {
+    border-color: #617C9C;
   }
 }
 </style>

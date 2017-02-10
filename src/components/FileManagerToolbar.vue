@@ -30,10 +30,10 @@
         <div class="btn-toolbar btn-transparent">
           <button class="toolbar-menu-button"><i class="material-icons">note_add</i>Create Empty File</button>
         </div>
-        <div class="btn-toolbar btn-transparent">
+        <div class="btn-toolbar btn-transparent" v-if="selectedFile">
           <button class="toolbar-menu-button"><i class="material-icons">edit</i> Edit Object</button>
         </div>
-        <div class="btn-toolbar btn-transparent">
+        <div class="btn-toolbar btn-transparent" v-if="selectedFile">
           <button class="toolbar-menu-button"><i class="material-icons">delete</i> Delete Object</button>
         </div>
       </div>
@@ -50,7 +50,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      selectedFile: {},
+      uploadFile: {},
       menuSections: {
         file_upload: false,
         create_folder: false,
@@ -67,12 +67,12 @@ export default {
       return this.menuSections[item];
     },
     persistFiles($event) {
-      this.selectedFile = $event.target.files[0];
+      this.uploadFile = $event.target.files[0];
     },
     uploadFile() {
       this.$store.dispatch('files/uploadFile', {
         user: this.currentUser,
-        file: this.selectedFile,
+        file: this.uploadFile,
         directory: this.where,
       })
       .then(() => {
@@ -84,6 +84,7 @@ export default {
     ...mapGetters({
       currentUser: 'users/getCurrentUser',
       where: 'files/getCurrentFolder',
+      selectedFile: 'files/getSelectedFile',
     }),
   },
 };

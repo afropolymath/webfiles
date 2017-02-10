@@ -6,6 +6,7 @@ export default {
   namespaced: true,
   state: {
     currentFolder: { name: '', path: '', objects: '' },
+    selectedFile: null,
   },
   actions: {
     loadFiles({ commit }, { user }) {
@@ -15,7 +16,6 @@ export default {
       });
     },
     navigateToDirectory({ commit }, { user, directory }) {
-      console.log(user, directory);
       return File.view(user, directory)
       .then((response) => {
         commit('SET_CURRENT_FOLDER', response.body);
@@ -63,8 +63,14 @@ export default {
         commit('DELETE_FILE', file);
       });
     },
+    selectObject({ commit }, { file }) {
+      commit('SET_SELECTED_FILE', file);
+    },
   },
   getters: {
+    getSelectedFile(state) {
+      return state.selectedFile;
+    },
     getCurrentFolder(state) {
       return state.currentFolder;
     },
@@ -90,6 +96,9 @@ export default {
     DELETE_FILE(state, file) {
       const selectedFileIndex = state.currentFolder.objects.findIndex(f => f.id === file.id);
       state.currentFolder.objects.splice(selectedFileIndex, 1);
+    },
+    SET_SELECTED_FILE(state, file) {
+      state.selectedFile = file;
     },
   },
 };

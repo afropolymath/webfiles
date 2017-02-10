@@ -4,7 +4,8 @@ import VueResource from 'vue-resource';
 
 import store from './store';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import App from './pages/App';
+import FolderViewer from './pages/FolderViewer';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -16,9 +17,17 @@ const routes = [
     component: Login,
   },
   {
-    name: 'dashboard',
+    name: 'app',
     path: '/app',
-    component: Dashboard,
+    component: App,
+    children: [
+      {
+        name: 'folder',
+        path: '/folder/:folderId',
+        component: FolderViewer,
+        props: true,
+      },
+    ],
   },
 ];
 
