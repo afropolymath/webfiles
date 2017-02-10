@@ -1,5 +1,5 @@
 <template>
-  <div class="base-component c-file" @click="selectFile" @dblclick="triggerFile"
+  <div class="base-component c-file" @click.stop="selectFile" @dblclick.stop="triggerFile"
     :class="{ 'active': selectedFile && selectedFile.id == wfFileObject.id }">
     <div class="file-icon">
       <span class="file-icon material-icons">{{ fileIcon }}</span>

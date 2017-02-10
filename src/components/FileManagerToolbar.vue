@@ -50,7 +50,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      uploadFile: {},
+      uploadFileObject: {},
       menuSections: {
         file_upload: false,
         create_folder: false,
@@ -67,12 +67,12 @@ export default {
       return this.menuSections[item];
     },
     persistFiles($event) {
-      this.uploadFile = $event.target.files[0];
+      this.uploadFileObject = $event.target.files[0];
     },
     uploadFile() {
       this.$store.dispatch('files/uploadFile', {
         user: this.currentUser,
-        file: this.uploadFile,
+        file: this.uploadFileObject,
         directory: this.where,
       })
       .then(() => {

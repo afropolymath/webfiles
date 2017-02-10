@@ -63,6 +63,9 @@ export default {
         commit('DELETE_FILE', file);
       });
     },
+    deselectObject({ commit }) {
+      commit('DESELECT_SELECTED_FILE');
+    },
     selectObject({ commit }, { file }) {
       commit('SET_SELECTED_FILE', file);
     },
@@ -99,6 +102,9 @@ export default {
     },
     SET_SELECTED_FILE(state, file) {
       state.selectedFile = file;
+    },
+    DESELECT_SELECTED_FILE(state) {
+      state.selectedFile = null;
     },
   },
 };

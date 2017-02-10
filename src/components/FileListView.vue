@@ -2,13 +2,19 @@
   <div class="base-component c-file-list-view">
     <activity-indicator v-if="!wfFiles"></activity-indicator>
     <div class="c-file-scroller">
-      <div class="c-file-list">
+      <div class="c-file-list" @click="deselectFile">
         <File v-for="file in wfFiles" :wf-file-object="file"></File>
       </div>
     </div>
-    <div class="c-file-properties">
+    <div class="c-file-properties" :class="{'tucked': sideBarTucked }">
+      <div class="hide-handle" @click="sideBarTucked = !sideBarTucked">
+        {{ sideBarTucked ? '&#9664' : '&#9658' }}
+      </div>
       <div class="wedge" v-if="!selectedFile">
-      Nothing here
+        Nothing here
+      </div>
+      <div class="wedge file-preview" v-if="selectedFile">
+        <!-- Nothing here yet -->
       </div>
       <div class="wedge" v-if="selectedFile">
         <p class="file-name">
@@ -26,10 +32,6 @@
           <p class="header">Date Modified</p>
           <p class="detail">{{ selectedFile.date_modified }}</p>
         </div>
-        <div class="file-prop">
-          <p class="header">Owner</p>
-          <p class="detail">{{ selectedFile.size }}</p>
-        </div>
       </div>
     </div>
   </div>
@@ -43,14 +45,31 @@ import ActivityIndicator from './ActivityIndicator';
 
 export default {
   props: ['wfFiles'],
+  data() {
+    return {
+      sideBarTucked: true,
+    };
+  },
   components: {
     File,
     ActivityIndicator,
+  },
+  methods: {
+    deselectFile() {
+      this.$store.dispatch('files/deselectObject');
+    },
   },
   computed: {
     ...mapGetters({
       selectedFile: 'files/getSelectedFile',
     }),
+  },
+  watch: {
+    selectedFile(file) {
+      if (file) {
+        this.sideBarTucked = false;
+      }
+    },
   },
 };
 </script>
@@ -60,6 +79,7 @@ export default {
   position: relative;
   display: flex;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .c-file-scroller {
@@ -75,15 +95,53 @@ export default {
 }
 
 .c-file-properties {
+  position: relative;
   display: flex;
+  flex-direction: column;
   background: #F9F9F9;
   border-left: solid 1px #EEE;
+  transition: all .3s;
+  
+  .hide-handle {
+    position: absolute;
+    bottom: 0;
+    left: -32px;
+    background: #F9F9F9;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: solid 1px #EEE;
+    border-right-color: #F9F9F9;
+    border-bottom: none;
+    border-radius: 5px 0 0 0;
+    cursor: pointer;
+    font-size: 10px;
+  }
+
+  &.tucked {
+    margin-right: -301px;
+    transition: all .3s;
+
+    .hide-handle {
+      border-radius: 5px 0 5px 0;
+    }
+  }
 
   .wedge {
-    width: 300px;
+    width: 240px;
     padding: 30px;
     flex-grow: 1;
     overflow-y: scroll;
+    
+    &.file-preview {
+      width: 300px;
+      height: 300px;
+      background: #FFF;
+      overflow-y: none;
+      padding: 0;
+      border-bottom: solid 1px #EEE;
+    }
   }
 
   .file-name {
