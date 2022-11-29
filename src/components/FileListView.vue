@@ -3,12 +3,16 @@
     <activity-indicator v-if="!wfFiles"></activity-indicator>
     <div class="c-file-scroller">
       <div class="c-file-list" @click="deselectFile">
-        <File v-for="file in wfFiles" :wf-file-object="file"></File>
+        <File
+          v-for="file in wfFiles"
+          :wf-file-object="file"
+          :key="file.id"
+        ></File>
       </div>
     </div>
-    <div class="c-file-properties" :class="{'tucked': sideBarTucked }">
+    <div class="c-file-properties" :class="{ tucked: sideBarTucked }">
       <div class="hide-handle" @click="sideBarTucked = !sideBarTucked">
-        {{ sideBarTucked ? '&#9664' : '&#9658' }}
+        {{ sideBarTucked ? "&#9664;" : "&#9658;" }}
       </div>
       <div class="wedge" v-if="!selectedFile">
         Nothing here
@@ -38,43 +42,43 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import File from './File';
-import ActivityIndicator from './ActivityIndicator';
+import File from "./File";
+import ActivityIndicator from "./ActivityIndicator";
 
 export default {
-  props: ['wfFiles'],
+  props: ["wfFiles"],
   data() {
     return {
-      sideBarTucked: true,
+      sideBarTucked: true
     };
   },
   components: {
     File,
-    ActivityIndicator,
+    ActivityIndicator
   },
   methods: {
     deselectFile() {
-      this.$store.dispatch('files/deselectObject');
-    },
+      this.$store.dispatch("files/deselectObject");
+    }
   },
   computed: {
     ...mapGetters({
-      selectedFile: 'files/getSelectedFile',
-    }),
+      selectedFile: "files/getSelectedFile"
+    })
   },
   watch: {
     selectedFile(file) {
       if (file) {
         this.sideBarTucked = false;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="sass?outputStyle=expanded">
+<style lang="scss">
 .c-file-list-view {
   position: relative;
   display: flex;
@@ -98,21 +102,21 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: #F9F9F9;
-  border-left: solid 1px #EEE;
-  transition: all .3s;
-  
+  background: #f9f9f9;
+  border-left: solid 1px #eee;
+  transition: all 0.3s;
+
   .hide-handle {
     position: absolute;
     bottom: 0;
     left: -32px;
-    background: #F9F9F9;
+    background: #f9f9f9;
     height: 30px;
     width: 30px;
     line-height: 30px;
     text-align: center;
-    border: solid 1px #EEE;
-    border-right-color: #F9F9F9;
+    border: solid 1px #eee;
+    border-right-color: #f9f9f9;
     border-bottom: none;
     border-radius: 5px 0 0 0;
     cursor: pointer;
@@ -121,7 +125,7 @@ export default {
 
   &.tucked {
     margin-right: -301px;
-    transition: all .3s;
+    transition: all 0.3s;
 
     .hide-handle {
       border-radius: 5px 0 5px 0;
@@ -133,14 +137,14 @@ export default {
     padding: 30px;
     flex-grow: 1;
     overflow-y: scroll;
-    
+
     &.file-preview {
       width: 300px;
       height: 300px;
-      background: #FFF;
+      background: #fff;
       overflow-y: none;
       padding: 0;
-      border-bottom: solid 1px #EEE;
+      border-bottom: solid 1px #eee;
     }
   }
 
@@ -154,7 +158,7 @@ export default {
   .file-prop {
     margin-top: 20px;
 
-    .header{
+    .header {
       font-weight: bold;
       margin: 0;
     }

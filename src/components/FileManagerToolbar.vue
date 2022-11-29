@@ -2,50 +2,74 @@
   <div class="base-component c-file-manager-toolbar">
     <div class="flx-container">
       <div class="btn-toolbar btn-dark">
-        <button class="toolbar-menu-button"><i class="material-icons">keyboard_arrow_left</i></button>
+        <button class="toolbar-menu-button">
+          <i class="material-icons">keyboard_arrow_left</i>
+        </button>
       </div>
       <div class="btn-group stretch-control">
         <div class="btn-toolbar btn-transparent">
-          <button class="toolbar-menu-button" @click="toggleMenuItem('file_upload')">
+          <button
+            class="toolbar-menu-button"
+            @click="toggleMenuItem('file_upload')"
+          >
             <i class="material-icons">file_upload</i> Upload File
           </button>
-          <div class="dropdown-form upload-form" v-if="isVisible('file_upload')">
+          <div
+            class="dropdown-form upload-form"
+            v-if="isVisible('file_upload')"
+          >
             <form @submit.prevent="uploadFile">
               <label for="file">Select the file you would like to upload</label>
-              <input type="file" name="file" @change="persistFiles($event)"/>
+              <input type="file" name="file" @change="persistFiles($event)" />
               <button class="btn-action" type="submit">Upload File</button>
             </form>
           </div>
         </div>
         <div class="btn-toolbar btn-transparent">
-          <button class="toolbar-menu-button" @click="toggleMenuItem('create_folder')">
+          <button
+            class="toolbar-menu-button"
+            @click="toggleMenuItem('create_folder')"
+          >
             <i class="material-icons">create_new_folder</i> Create Folder
           </button>
-          <div class="dropdown-form folder-create-form" v-if="isVisible('create_folder')">
-            <label for="name">Enter the name of the folder you wish to create</label>
-            <input type="text" name="name" placeholder="Enter folder name"/>
+          <div
+            class="dropdown-form folder-create-form"
+            v-if="isVisible('create_folder')"
+          >
+            <label for="name"
+              >Enter the name of the folder you wish to create</label
+            >
+            <input type="text" name="name" placeholder="Enter folder name" />
             <button class="btn-action">Create Folder</button>
           </div>
         </div>
         <div class="btn-toolbar btn-transparent">
-          <button class="toolbar-menu-button"><i class="material-icons">note_add</i>Create Empty File</button>
+          <button class="toolbar-menu-button">
+            <i class="material-icons">note_add</i>Create Empty File
+          </button>
         </div>
         <div class="btn-toolbar btn-transparent" v-if="selectedFile">
-          <button class="toolbar-menu-button"><i class="material-icons">edit</i> Edit Object</button>
+          <button class="toolbar-menu-button">
+            <i class="material-icons">edit</i> Edit Object
+          </button>
         </div>
         <div class="btn-toolbar btn-transparent" v-if="selectedFile">
-          <button class="toolbar-menu-button"><i class="material-icons">delete</i> Delete Object</button>
+          <button class="toolbar-menu-button">
+            <i class="material-icons">delete</i> Delete Object
+          </button>
         </div>
       </div>
       <div class="btn-toolbar btn-dark">
-        <button class="toolbar-menu-button"><i class="material-icons">keyboard_arrow_right</i></button>
+        <button class="toolbar-menu-button">
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -53,14 +77,15 @@ export default {
       uploadFileObject: {},
       menuSections: {
         file_upload: false,
-        create_folder: false,
-      },
+        create_folder: false
+      }
     };
   },
   methods: {
     toggleMenuItem(item) {
-      Object.keys(this.menuSections).forEach((section) => {
-        this.menuSections[section] = (section === item) ? !this.menuSections[section] : false;
+      Object.keys(this.menuSections).forEach(section => {
+        this.menuSections[section] =
+          section === item ? !this.menuSections[section] : false;
       });
     },
     isVisible(item) {
@@ -70,27 +95,28 @@ export default {
       this.uploadFileObject = $event.target.files[0];
     },
     uploadFile() {
-      this.$store.dispatch('files/uploadFile', {
-        user: this.currentUser,
-        file: this.uploadFileObject,
-        directory: this.where,
-      })
-      .then(() => {
-        this.toggleMenuItem('file_upload');
-      });
-    },
+      this.$store
+        .dispatch("files/uploadFile", {
+          user: this.currentUser,
+          file: this.uploadFileObject,
+          directory: this.where
+        })
+        .then(() => {
+          this.toggleMenuItem("file_upload");
+        });
+    }
   },
   computed: {
     ...mapGetters({
-      currentUser: 'users/getCurrentUser',
-      where: 'files/getCurrentFolder',
-      selectedFile: 'files/getSelectedFile',
-    }),
-  },
+      currentUser: "users/getCurrentUser",
+      where: "files/getCurrentFolder",
+      selectedFile: "files/getSelectedFile"
+    })
+  }
 };
 </script>
 
-<style lang="sass?outputStyle=expanded">
+<style lang="scss">
 .flx-container {
   display: flex;
   height: 50px;
@@ -99,7 +125,7 @@ export default {
 }
 
 .c-file-manager-toolbar {
-  background: #FBC807
+  background: #fbc807;
 }
 
 .btn-toolbar {
@@ -115,11 +141,12 @@ export default {
     font-family: "Open Sans", Arial, sans-serif;
     font-size: 13px;
     cursor: pointer;
-    transition: all .3s;
+    transition: all 0.3s;
     &:hover {
-      background: #E7B809;
+      background: #e7b809;
     }
-    &:focus, &:active {
+    &:focus,
+    &:active {
       outline: none;
     }
   }
@@ -129,7 +156,7 @@ export default {
 }
 
 .btn-dark {
-  background: #DCAF05;
+  background: #dcaf05;
   i {
     margin-right: 0;
   }
@@ -148,7 +175,7 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
-  background: #FBC807;
+  background: #fbc807;
   left: 0;
   top: 50px;
   padding: 20px;
@@ -164,9 +191,9 @@ export default {
     border-radius: 2px;
   }
   .btn-action {
-    background: #617C9C;
+    background: #617c9c;
     width: 100%;
-    color: #FFF;
+    color: #fff;
     border: none;
     padding: 10px;
     margin-top: 10px;

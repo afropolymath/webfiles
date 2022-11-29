@@ -1,37 +1,30 @@
-import localForage from 'localforage';
-
-import Auth from '../../services/auth';
+import Auth from "../../services/auth";
 
 export default {
   namespaced: true,
   state: {
-    currentUser: { id: '', token: '' },
+    currentUser: { id: "", token: "" },
   },
   actions: {
     loginUser({ commit }, user) {
-      return Auth.login(user)
-      .then((response) => {
-        commit('SET_CURRENT_USER', response.body);
+      return Auth.login(user).then((response) => {
+        commit("SET_CURRENT_USER", response);
       });
     },
-    registerUser(context, user) {
+    registerUser(_, user) {
       return Auth.register(user);
     },
-    loadUser({ commit, state }) {
+    async loadUser({ commit, state }) {
       if (state.currentUser.id && state.currentUser.token) {
-        return Promise.resolve(state.currentUser);
+        return state.currentUser;
       }
-      return localForage.getItem('wf_user')
-      .then((user) => {
-        if (!user) {
-          return Promise.resolve({});
-        }
-        return Auth.testToken(user)
-        .then(() => {
-          commit('SET_CURRENT_USER', user);
-          return user;
-        });
-      });
+      try {
+        const user = JSON.parse(localStorage.getItem("wf_user"));
+        commit("SET_CURRENT_USER", user);
+        return user;
+      } catch (err) {
+        return {};
+      }
     },
   },
   getters: {
@@ -42,10 +35,8 @@ export default {
   mutations: {
     SET_CURRENT_USER(state, user) {
       /* eslint no-param-reassign: ["error", { "props": false }] */
-      localForage.setItem('wf_user', user)
-      .then(() => {
-        state.currentUser = user;
-      });
+      localStorage.setItem("wf_user", JSON.stringify(user));
+      state.currentUser = user;
     },
   },
 };

@@ -5,12 +5,10 @@
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
-<style lang="sass?outputStyle=expanded">
+<style lang="scss">
 .c-file-manager {
   position: absolute;
   display: flex;
@@ -19,9 +17,9 @@ export default {
   bottom: 40px;
   left: 40px;
   right: 40px;
-  background: #FFF;
+  background: #fff;
   border-radius: 5px;
-  border: 1px solid #E7E7E7;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.08);
+  border: 1px solid #e7e7e7;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
 }
 </style>

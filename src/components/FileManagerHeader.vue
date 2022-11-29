@@ -4,9 +4,7 @@
       <div class="logo">
         <img src="../assets/img/logo.png" />
       </div>
-      <div class="title">
-        ~ - Home Directory - WebFiles 1.0
-      </div>
+      <div class="title">~ - Home Directory - WebFiles 1.0</div>
       <div class="controls">
         <a id="logout-control">
           <i class="material-icons">power_settings_new</i>
@@ -17,12 +15,10 @@
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
-<style lang="sass?outputStyle=expanded">
+<style lang="scss">
 .flx-container {
   display: flex;
   height: 50px;

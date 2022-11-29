@@ -1,29 +1,33 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import VueResource from 'vue-resource';
+import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
 
-import store from './store';
-import Login from './pages/Login';
-import App from './pages/App';
-import FolderViewer from './pages/FolderViewer';
+import App from "./App.vue";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AppContainer from "./pages/App";
+import FolderViewer from "./pages/FolderViewer";
 
-Vue.use(VueRouter);
-Vue.use(VueResource);
+import store from "./store";
 
 const routes = [
   {
-    name: 'login',
-    path: '/',
+    name: "login",
+    path: "/",
     component: Login,
   },
   {
-    name: 'app',
-    path: '/app',
-    component: App,
+    name: "register",
+    path: "/register",
+    component: Register,
+  },
+  {
+    name: "app",
+    path: "/app",
+    component: AppContainer,
     children: [
       {
-        name: 'folder',
-        path: '/folder/:folderId',
+        name: "folder",
+        path: "/folder/:folderId",
         component: FolderViewer,
         props: true,
       },
@@ -31,11 +35,14 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(),
   routes,
 });
 
-(new Vue({
-  router,
-  store,
-})).$mount('#app');
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+
+app.mount("#app");
